@@ -29,6 +29,10 @@
     line-height: 19px;
 }
 
+#enclose {
+    margin-left: 5rem;
+}
+
 @media all and (max-width: 350px) {
     .now-weather-code-icon {
         height: 100px;
@@ -65,4 +69,8 @@
         font-size: 16px;
         line-height: 19px;
     }    
+
+    #enclose {
+        margin-left: 5rem;
+    }
 }

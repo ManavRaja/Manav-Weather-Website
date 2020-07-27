@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/weather_now.css') }}">
 </head>
 
+<div id="enclose">
 <div class="container">
     <div class="d-flex">
         <img class="now-weather-code-icon align-self-center" src="{{url_for("static", filename="images/weathercodeicons/" + weather_code_now + ".svg")}}" alt="Icon for weather code.">
@@ -23,4 +24,5 @@
         <h6 class="now-sub-details">Humidity: {{weather_now_info["humidity"]["value"] | round(0, "common") | int}}%</h6>
         <h6 class="now-sub-details">Precipitation Probability: {{weather_hourly_info[0]["precipitation_probability"]["value"]}}{{weather_hourly_info[0]["precipitation_probability"]["units"]}}</h6>
     </div>
+</div>
 </div>
