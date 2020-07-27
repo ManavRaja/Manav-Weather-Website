@@ -29,7 +29,7 @@
     line-height: 19px;
 }
 
-@media screen and (width: 320px) {
+@media screen and (max-width: 320px) {
     .now-weather-code-icon {
         height: 100px;
         width: 100px;
