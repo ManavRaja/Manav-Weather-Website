@@ -1,0 +1,35 @@
+#temp {
+    width: 141px;
+    height: 75px;
+    left: 241px;
+    top: 82px;
+    font-size: 58px;
+    line-height: 75px;
+    color: #003049;
+    padding-left: 2rem;
+}
+
+#now-time-location {
+    color: #2a9d8f;
+    width: 293px;
+    height: 19px;
+    left: 32px;
+    top: 225px;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.now-sub-details {
+    color: #2a9d8f;
+    width: 362px;
+    left: 32px;
+    top: 332px;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+}
+
+.now-weather-code-icon {
+    max-width: 50%;
+    height: auto;
+}
