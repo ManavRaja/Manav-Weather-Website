@@ -25,8 +25,6 @@ def post():
     cords = json.loads(byte_str)
     lat = cords["lat"]
     long = cords["long"]
-    print(request.headers)
-    print(request.data)
 
     url = f"https://api.bigdatacloud.net/data/reverse-geocode-with-timezone?latitude={lat}&longitude={long}&localityLanguage=en&key=7fb45ca5cb3a40a690064cd6cf037829"
     geo_data = requests.request("GET", url)

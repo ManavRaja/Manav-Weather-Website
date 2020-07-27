@@ -11,7 +11,7 @@
 
 #now-time-location {
     color: #2a9d8f;
-    width: 293px;
+    
     height: 19px;
     left: 32px;
     top: 225px;
@@ -21,16 +21,11 @@
 
 .now-sub-details {
     color: #2a9d8f;
-    width: 362px;
     left: 32px;
     top: 332px;
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-}
-
-#enclose {
-    margin-left: 5rem;
 }
 
 @media all and (max-width: 350px) {
@@ -69,8 +64,4 @@
         font-size: 16px;
         line-height: 19px;
     }    
-
-    #enclose {
-        margin-left: 5rem;
-    }
 }
