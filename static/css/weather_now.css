@@ -29,7 +29,9 @@
     line-height: 19px;
 }
 
-.now-weather-code-icon {
-    max-width: 50%;
-    height: auto;
+@media screen and (width: 320px) {
+    .now-weather-code-icon {
+        height: 100px;
+        width: 100px;
+    }
 }
