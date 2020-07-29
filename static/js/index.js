@@ -30,10 +30,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }).then(async response => {
             let resp = await response.text()
             resp = JSON.parse(resp)
-            resp1 = resp.html_content
-            resp2 = resp.html_content2
-            append = document.querySelector("#append")
-            append2 = document.querySelector("#append2")
+            let resp1 = resp.html_content
+            let resp2 = resp.html_content2
+            let append = document.querySelector("#append")
+            let append2 = document.querySelector("#append2")
             const hide = document.getElementsByClassName("hide-before")
             for (x of hide) {
                 x.style.display = "none"
