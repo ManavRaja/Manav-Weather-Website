@@ -7,8 +7,17 @@
 	<div class="card">
 	  <div class="card-header" id="heading{{loop.index}}">
 		<h2 class="mb-0">
-		  <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
-			{{day["observation_time"]["value"]}} &emsp; &emsp; &emsp; &emsp; &emsp; {{day["temp"][1]["max"]["value"] | int | round(0, "common") | int}}°{{day["temp"][1]["max"]["units"]}}/{{day["temp"][0]["min"]["value"] | int | round(0, "common") | int}}°{{day["temp"][0]["min"]["units"]}} &emsp; &emsp; <img class="day-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + day["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."> &ensp; {{day["weather_code"]["value"] | replace("_", " ") | title}}
+		  <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+			<table id="example" class="table table-striped" style="width:100%">
+				<tbody>
+					<tr>
+						<td>{{day["observation_time"]["value"]}} &emsp; &emsp; &emsp;</td>
+						<td>{{day["temp"][1]["max"]["value"] | int | round(0, "common") | int}}°{{day["temp"][1]["max"]["units"]}}/{{day["temp"][0]["min"]["value"] | int | round(0, "common") | int}}°{{day["temp"][0]["min"]["units"]}} &emsp; &emsp;</td>
+						<td><img class="day-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + day["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></td>
+						<td>{{day["weather_code"]["value"] | replace("_", " ") | title}}</td>
+					</tr>
+				</tbody>
+			</table>
 		  </button>
 		</h2>
 	  </div>
