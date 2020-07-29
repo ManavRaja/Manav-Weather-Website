@@ -4,10 +4,10 @@ from flask.helpers import flash
 import requests
 import json
 import datetime
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, tzinfo
 from pytz import timezone
 import pytz
-from dateutil.parser import parse, parser
+from dateutil.parser import isoparse, parse, parser
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -70,27 +70,27 @@ def post():
         
 
 
-    """def weather_daily(lat, long, unit_system):
+    def weather_daily(lat, long, unit_system):
         url = "https://api.climacell.co/v3/weather/forecast/daily"
         querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","start_time":"now","end_time":f"{time_iso_utc_7}","fields":"precipitation,precipitation_accumulation,temp,feels_like,wind_speed,baro_pressure,visibility,humidity,wind_direction,sunrise,sunset,moon_phase,weather_code","apikey":"Pjj20stQZPi2r58kgyUq3JsHtyy2QbsU"}
         weather_daily = requests.request("GET", url, params=querystring)
         weather_daily = weather_daily.text
         weather_daily_info = json.loads(weather_daily)
         #print(weather_daily_info)
-        return weather_daily_info"""
+        return weather_daily_info
 
 
     executor = ThreadPoolExecutor(max_workers=5)
     weather_now_thread = executor.submit(weather_now, lat, long, unit_system)
     weather_hourly_thread = executor.submit(weather_hourly, lat, long, unit_system)
-    #weather_daily_thread = executor.submit(weather_daily, lat, long, unit_system)
+    weather_daily_thread = executor.submit(weather_daily, lat, long, unit_system)
     weather_now_info = weather_now_thread.result()
     weather_hourly_info = weather_hourly_thread.result()
-    #weather_daily_info = weather_daily_thread.result()
+    weather_daily_info = weather_daily_thread.result()
 
 
     weather_code_now = weather_now_info["weather_code"]["value"]
-    special_weather_codes = ["partly_cloudy", "mostly_clear", "clear"]
+    special_weather_codes = ["partly_cloudy", "mostly_clear", "clear"]  
 
     if weather_code_now in special_weather_codes:
         if 6 <= time_iso.hour < 21:
@@ -98,8 +98,39 @@ def post():
         else:
             weather_code_now = weather_code_now + "_night"
 
+    
+    for day in weather_daily_info:
+        if day["weather_code"]["value"] in special_weather_codes:
+            if 6 <= time_iso.hour < 21:
+                day["weather_code"]["value"] += "_day"
 
-    return {"html_content": render_template("weather_now.html", weather_now_info=weather_now_info, weather_code_now=weather_code_now, time_str=time_str, geo_data=geo_data, weather_hourly_info=weather_hourly_info), "html_content2": render_template("weather_daily.html")}
+
+    for day in weather_daily_info:
+        sunrise = day["sunrise"]["value"]
+        sunset = day["sunset"]["value"]
+        sunrise = isoparse(sunrise)
+        sunset = isoparse(sunset)
+        sunrise = sunrise.astimezone(pytz.utc)
+        sunset = sunset.astimezone(pytz.utc)
+        sunrise = sunrise.astimezone(pytz.timezone(geo_data["timeZone"]["ianaTimeId"]))
+        sunset = sunset.astimezone(pytz.timezone(geo_data["timeZone"]["ianaTimeId"]))
+        sunrise = sunrise.strftime("%I:%M %p")
+        sunset = sunset.strftime("%I:%M %p")
+        day["sunrise"]["value"] = sunrise
+        day["sunset"]["value"] = sunset
+        #print(day["sunrise"]["value"])
+        #print(day["sunset"]["value"])
+
+        dayy = day["observation_time"]["value"]
+        dayy = datetime.strptime(dayy, "%Y-%m-%d")
+        dayy = dayy.strftime("%a %d")
+        day["observation_time"]["value"] = dayy
+        #print(day["observation_time"]["value"])
+       
+    weather_daily_info[0]["observation_time"]["value"] = "Today"
+
+
+    return {"html_content": render_template("weather_now.html", weather_now_info=weather_now_info, weather_code_now=weather_code_now, time_str=time_str, geo_data=geo_data, weather_hourly_info=weather_hourly_info), "html_content2": render_template("weather_daily.html", weather_daily_info=weather_daily_info)}
 
 
 if __name__=="__main__":
