@@ -1,0 +1,40 @@
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/weather_daily.css') }}">
+</head>
+
+{% for day in weather_daily_info %}
+<div class="accordion" id="accordion{{loop.index}}">
+	<div class="card">
+	  <div class="card-header" id="heading{{loop.index}}">
+		<h2 class="mb-0">
+		  <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+			<table id="example" class="table table-striped" style="width:100%">
+				<tbody>
+					<tr>
+						<td>{{day["observation_time"]["value"]}} &emsp; &emsp; &emsp;</td>
+						<td>{{day["temp"][1]["max"]["value"] | int | round(0, "common") | int}}°{{day["temp"][1]["max"]["units"]}}/{{day["temp"][0]["min"]["value"] | int | round(0, "common") | int}}°{{day["temp"][0]["min"]["units"]}} &emsp; &emsp;</td>
+						<td><img class="day-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + day["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></td>
+						<td>{{day["weather_code"]["value"] | replace("_", " ") | title}}</td>
+					</tr>
+				</tbody>
+			</table>
+		  </button>
+		</h2>
+	  </div>
+	  <div id="collapse{{loop.index}}" class="collapse" aria-labelledby="heading{{loop.index}}" data-parent="#accordion{{loop.index}}">
+		<div class="card-body">
+			<table class="table table-dark">
+				<tbody>
+				  <tr>
+					<td>Humidity: {{((day["humidity"][0]["min"]["value"] + day["humidity"][1]["max"]["value"]) / 2) | round(0, "common") | int}}{{day["humidity"][1]["max"]["units"]}} &emsp; &emsp; &emsp; &emsp; Moon Phase: {{day["moon_phase"]["value"] | replace("_", " ") | title}}</td>
+				  </tr>
+				  <tr>
+					<td>Sunrise: {{day["sunrise"]["value"]}} &emsp; &emsp; &emsp; Sunset: {{day["sunset"]["value"]}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+	  </div>
+	</div>
+</div>
+{% endfor %}
