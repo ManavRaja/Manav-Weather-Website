@@ -17,6 +17,6 @@
         <br>
         <h6 class="now-sub-details">Wind Speed: {{weather_now_info["wind_speed"]["value"] | round(0, "common") | int}} {{weather_now_info["wind_speed"]["units"]}}</h6>
         <h6 class="now-sub-details">Humidity: {{weather_now_info["humidity"]["value"] | round(0, "common") | int}}%</h6>
-        <h6 class="now-sub-details">Precipitation Probability: {{weather_hourly_info[0]["precipitation_probability"]["value"]}}{{weather_hourly_info[0]["precipitation_probability"]["units"]}}</h6>
+        <h6 class="now-sub-details">Precipitation Probability: {{weather_current_hour["precipitation_probability"]["value"]}}{{weather_current_hour["precipitation_probability"]["units"]}}</h6>
     </div>
 </div>

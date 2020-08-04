@@ -32,20 +32,26 @@ document.addEventListener('DOMContentLoaded', function() {
             resp = JSON.parse(resp)
             let resp1 = resp.html_content
             let resp2 = resp.html_content2
+            let resp3 = resp.html_content3
             let append = document.querySelector("#append")
             let append2 = document.querySelector("#append2")
+            let append3 = document.querySelector("#append3")
             const hide = document.getElementsByClassName("hide-before")
             for (x of hide) {
                 x.style.display = "none"
             }
             append.innerHTML = resp1
-            append2.innerHTML = resp2
+            append2.innerHTML = resp3
+            append3.innerHTML = resp2
         })  
     }
     
     function error(err) {
         console.warn(`ERROR(${err.code}): ${err.message}`);
         alert(`ERROR(${err.code}): ${err.message}`)
+        //for (errory in err.message) {
+            //console.log(errory)
+        //}
     }
     
     navigator.geolocation.getCurrentPosition(success, error, options);
