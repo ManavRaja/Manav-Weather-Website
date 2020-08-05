@@ -1,3 +1,4 @@
+from config import geolocation_api_key, weather_api_key
 from flask import Flask, render_template, app, request, redirect, session, make_response
 import requests
 import json
@@ -9,6 +10,7 @@ from dateutil.parser import isoparse
 from concurrent.futures import ThreadPoolExecutor
 import itertools
 from pprint import pprint, pformat
+import config
 
 
 app = Flask(__name__)
@@ -26,7 +28,7 @@ def post():
     lat = cords["lat"]
     long = cords["long"]
 
-    url = f"https://api.bigdatacloud.net/data/reverse-geocode-with-timezone?latitude={lat}&longitude={long}&localityLanguage=en&key=7fb45ca5cb3a40a690064cd6cf037829"
+    url = f"https://api.bigdatacloud.net/data/reverse-geocode-with-timezone?latitude={lat}&longitude={long}&localityLanguage=en&key={config.geolocation_api_key}"
     geo_data = requests.request("GET", url)
     geo_data = geo_data.text
     geo_data = json.loads(geo_data)
@@ -54,7 +56,7 @@ def post():
 
     def weather_now(lat, long, unit_system):
         url = "https://api.climacell.co/v3/weather/realtime"
-        querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","fields":"temp,feels_like,dewpoint,humidity,wind_speed,wind_direction,wind_gust,baro_pressure,precipitation,precipitation_type,sunrise,sunset,visibility,cloud_cover,cloud_base,cloud_ceiling,surface_shortwave_radiation,moon_phase,weather_code","apikey":"Pjj20stQZPi2r58kgyUq3JsHtyy2QbsU"}
+        querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","fields":"temp,feels_like,dewpoint,humidity,wind_speed,wind_direction,wind_gust,baro_pressure,precipitation,precipitation_type,sunrise,sunset,visibility,cloud_cover,cloud_base,cloud_ceiling,surface_shortwave_radiation,moon_phase,weather_code","apikey":f"{config.weather_api_key}"}
         weather_now = requests.request("GET", url, params=querystring)
         weather_now = weather_now.text
         weather_now_info = json.loads(weather_now)
@@ -64,7 +66,7 @@ def post():
     
     def weather_hourly(lat, long, unit_system):
         url = "https://api.climacell.co/v3/weather/forecast/hourly"
-        querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","start_time":"now","end_time":f"{time_iso_utc_48}","fields":"temp,feels_like,dewpoint,humidity,wind_speed,wind_direction,wind_gust,baro_pressure,precipitation,precipitation_type,precipitation_probability,sunrise,sunset,visibility,cloud_cover,cloud_base,cloud_ceiling,surface_shortwave_radiation,moon_phase,weather_code","apikey":"Pjj20stQZPi2r58kgyUq3JsHtyy2QbsU"}
+        querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","start_time":"now","end_time":f"{time_iso_utc_48}","fields":"temp,feels_like,dewpoint,humidity,wind_speed,wind_direction,wind_gust,baro_pressure,precipitation,precipitation_type,precipitation_probability,sunrise,sunset,visibility,cloud_cover,cloud_base,cloud_ceiling,surface_shortwave_radiation,moon_phase,weather_code","apikey":f"{config.weather_api_key}"}
         weather_hourly = requests.request("GET", url, params=querystring)
         weather_hourly = weather_hourly.text
         #print(weather_hourly)
@@ -76,7 +78,7 @@ def post():
 
     def weather_daily(lat, long, unit_system):
         url = "https://api.climacell.co/v3/weather/forecast/daily"
-        querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","start_time":"now","end_time":f"{time_iso_utc_15}","fields":"precipitation,precipitation_accumulation,temp,feels_like,wind_speed,baro_pressure,visibility,humidity,wind_direction,sunrise,sunset,moon_phase,weather_code","apikey":"Pjj20stQZPi2r58kgyUq3JsHtyy2QbsU"}
+        querystring = {"lat":f"{lat}","lon":f"{long}","unit_system":f"{unit_system}","start_time":"now","end_time":f"{time_iso_utc_15}","fields":"precipitation,precipitation_accumulation,temp,feels_like,wind_speed,baro_pressure,visibility,humidity,wind_direction,sunrise,sunset,moon_phase,weather_code","apikey":f"{config.weather_api_key}"}
         weather_daily = requests.request("GET", url, params=querystring)
         weather_daily = weather_daily.text
         #print(weather_daily)
