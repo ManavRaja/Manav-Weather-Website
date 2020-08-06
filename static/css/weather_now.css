@@ -28,6 +28,10 @@
     line-height: 19px;
 }
 
+#now-weather-code {
+    color: #003049;
+}
+
 @media all and (max-width: 350px) {
     .now-weather-code-icon {
         height: 100px;
@@ -64,4 +68,8 @@
         font-size: 16px;
         line-height: 19px;
     } 
+    
+    #now-weather-code {
+        color: #003049;
+    }
 }

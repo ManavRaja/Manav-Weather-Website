@@ -20,3 +20,15 @@ body {
         display: flex;
     }
 }
+
+td {
+    color: #2a9d8f;
+}
+
+tr:hover {
+    background-color: #003049;
+}
+
+@media all and (max-width: 450px) {
+
+}

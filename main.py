@@ -1,15 +1,12 @@
-from config import geolocation_api_key, weather_api_key
-from flask import Flask, render_template, app, request, redirect, session, make_response
+from flask import Flask, render_template, app, request
 import requests
 import json
 import datetime
-from datetime import datetime, timedelta, time, tzinfo
-from pytz import timezone
+from datetime import datetime, timedelta
 import pytz
 from dateutil.parser import isoparse
 from concurrent.futures import ThreadPoolExecutor
 import itertools
-from pprint import pprint, pformat
 import config
 
 

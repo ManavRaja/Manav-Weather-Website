@@ -6,3 +6,9 @@
     height: 30px;
     width: 30px;
 }
+
+.hour-info-enclose {
+    border: 1px solid #003049;
+    border-radius: 16px;
+    margin: 10px;
+}

@@ -1,0 +1,2 @@
+geolocation_api_key = "97d04d61f1f0426a8d85f2bfa92a0682"
+weather_api_key = "Pjj20stQZPi2r58kgyUq3JsHtyy2QbsU"

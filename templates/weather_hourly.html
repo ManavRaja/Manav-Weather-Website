@@ -2,19 +2,51 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/weather_hourly.css') }}">
 </head>
 
+<div class="container hour-info-enclose">
+    <h3>48 Hour Weather Forecast</h3>
+    <br>
+<div class="container overflow-auto hour-info">
+<div class="table-responsive">
+<table class="table" style="border-collapse: collapse;">
+    <tbody>
+        {% for day, lst in weather_hourly_info.items() %}
+        <tr>
+            <td colspan="3" style="border: none;"><strong>{{day.strftime("%A, %B %d")}}</td style="border: none;">
+        </tr>
+        {% for hour in lst %}
+            <tr data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapse{{loop.index}}">
+                <td style="border: none;">{{hour["observation_time"]["value"].strftime("%I %p")}}</td style="border: none;">
+                <td style="border: none;">{{hour["temp"]["value"] | round(0, "common") | int}}°{{hour["temp"]["units"]}}</td style="border: none;">
+                <td style="border: none;"><img class="hour-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + hour["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></td style="border: none;">
+                <td style="border: none;">{{hour["weather_code"]["value"] | replace("_", " ") | title}}</td style="border: none;">
+            </tr>
+            <tr id="collapse{{loop.index}}" class="collapse hide">
+                <td style="border: none;">Feels Like: {{hour["feels_like"]["value"] | round(0, "common") | int}}°{{hour["feels_like"]["units"]}}</td style="border: none;">
+                <td style="border: none;">Humidity: {{hour["humidity"]["value"] | round(0, "common") | int}}{{hour["humidity"]["units"]}}</td style="border: none;">
+                <td colspan="2" style="border: none;">Precipitation Probability: {{hour["precipitation_probability"]["value"]}}{{hour["precipitation_probability"]["units"]}}</td style="border: none;">
+            </tr>
+    {% endfor %}
+    {% endfor %}
+   </tbody>
+</table>
+</div>
+</div>
+</div>
+
+<!--
 <div class="container">
 <h1>48 Hour Weather Forecast</h1>
 <br>
 <div class="container overflow-auto hour-info">
     {% for day, lst in weather_hourly_info.items() %}
     <h3>{{day.strftime("%A, %B %d")}}</h3>
-    {% for hour in lst %}
-    <div class="accordion" id="accordion{{loop.index + 1000}}">
+    <div class="accordion" id="accordion{{loop.index}}">
         <div class="card">
-          <div class="card-header" id="heading{{loop.index + 1000}}">
+          <div class="card-header" id="heading{{loop.index}}">
             <h2 class="mb-0">
-              <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index + 1000}}" aria-expanded="true" aria-controls="collapse{{loop.index + 1000}}">
-                    <table class="table" style="width: 27.5rem;">
+              <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                    <table class="table">
+                        {% for hour in lst %}
                         <thead>
                             <tr>
                                 <th scope="col" style="width: 7rem;">{{hour["observation_time"]["value"].strftime("%I %p")}}</th>
@@ -27,12 +59,12 @@
                 </button>
             </h2>
           </div>
-          <div id="collapse{{loop.index + 1000}}" class="collapse" aria-labelledby="heading{{loop.index + 1000}}" data-parent="#accordion{{loop.index + 1000}}">
+          <div id="collapse{{loop.index}}" class="collapse" aria-labelledby="heading{{loop.index}}" data-parent="#accordion{{loop.index}}">
             <div class="card-body">
-                <table class="table table-dark"">
+                <table class="table table-dark">
                     <tbody>
                       <tr>
-                          <td>Feels Like: {{hour["feels_like"]["value"] | round(0, "common") | int}}°{{hour["feels_like"]["units"]}} &emsp; &emsp; &emsp; Humidity: {{hour["humidity"]["value"] | round(0, "common") | int}}{{hour["humidity"]["units"]}} &emsp; &emsp; &emsp; Precipitation Probability: {{hour["precipitation_probability"]["value"]}}{{hour["precipitation_probability"]["units"]}}</td>
+                          <td style="border: none;">Feels Like: {{hour["feels_like"]["value"] | round(0, "common") | int}}°{{hour["feels_like"]["units"]}} &emsp; &emsp; &emsp; Humidity: {{hour["humidity"]["value"] | round(0, "common") | int}}{{hour["humidity"]["units"]}} &emsp; &emsp; &emsp; Precipitation Probability: {{hour["precipitation_probability"]["value"]}}{{hour["precipitation_probability"]["units"]}}</td style="border: none;">
                       </tr>
                       <tr>
                       </tr>
@@ -45,4 +77,51 @@
     {% endfor %}
     {% endfor %}
     </div>
-</div>
+</div> -->
+
+<!--
+<div class="container">
+    <h1>48 Hour Weather Forecast</h1>
+    <br>
+    <div class="container overflow-auto hour-info">
+        {% for day, lst in weather_hourly_info.items() %}
+        <h3>{{day.strftime("%A, %B %d")}}</h3>
+        {% for hour in lst %}
+        <div class="accordion" id="accordion{{loop.index}}">
+            <div class="card">
+              <div class="card-header" id="heading{{loop.index}}">
+                <h2 class="mb-0">
+                  <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                        <table class="table" style="width: 27.5rem;">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 7rem;">{{hour["observation_time"]["value"].strftime("%I %p")}}</th>
+                                    <th scope="col" style="width: 7rem;">{{hour["temp"]["value"] | round(0, "common") | int}}°{{hour["temp"]["units"]}}</th>
+                                    <th scope="col" style="width: 0.5rem;"><img class="hour-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + hour["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></th>
+                                    <th scope="col" style="width: 12rem;">{{hour["weather_code"]["value"] | replace("_", " ") | title}}</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </button>
+                </h2>
+              </div>
+              <div id="collapse{{loop.index}}" class="collapse" aria-labelledby="heading{{loop.index}}" data-parent="#accordion{{loop.index}}">
+                <div class="card-body">
+                    <table class="table table-dark"">
+                        <tbody>
+                          <tr>
+                              <td style="border: none;">Feels Like: {{hour["feels_like"]["value"] | round(0, "common") | int}}°{{hour["feels_like"]["units"]}} &emsp; &emsp; &emsp; Humidity: {{hour["humidity"]["value"] | round(0, "common") | int}}{{hour["humidity"]["units"]}} &emsp; &emsp; &emsp; Precipitation Probability: {{hour["precipitation_probability"]["value"]}}{{hour["precipitation_probability"]["units"]}}</td style="border: none;">
+                          </tr>
+                          <tr>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endfor %}
+        </div>
+    </div>
+    -->

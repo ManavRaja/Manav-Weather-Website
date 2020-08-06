@@ -2,6 +2,32 @@
 	<link rel="stylesheet" href="{{ url_for('static', filename='css/weather_daily.css') }}">
 </head>
 
+<div class="container daily-info-enclose">
+	<h3>14 Day Weather Forecast</h3>
+	<br>
+<div class="container overflow-auto daily-info">
+<table class="table" style="border-collapse: collapse;">
+	<tbody>
+        {% for day in weather_daily_info %}
+            <tr data-toggle="collapse" data-target="#collapse{{loop.index + 1000}}" aria-expanded="false" aria-controls="collapse{{loop.index + 1000}}">
+                <td style="border: none;">{{day["observation_time"]["value"]}}</td style="border: none;">
+				<td style="border: none;">{{day["temp"][1]["max"]["value"] | int | round(0, "common") | int}}°{{day["temp"][1]["max"]["units"]}}/{{day["temp"][0]["min"]["value"] | int | round(0, "common") | int}}°{{day["temp"][0]["min"]["units"]}}</td style="border: none;">
+				<td style="border: none;"><img class="day-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + day["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></td style="border: none;">
+				<td style="border: none;">{{day["weather_code"]["value"] | replace("_", " ") | title}}</td style="border: none;">
+            </tr>
+            <tr id="collapse{{loop.index + 1000}}" class="collapse hide">
+				<td style="border: none;">Humidity: {{((day["humidity"][0]["min"]["value"] + day["humidity"][1]["max"]["value"]) / 2) | round(0, "common") | int}}{{day["humidity"][1]["max"]["units"]}}</td style="border: none;">
+				<td style="border: none;">Moon Phase: {{day["moon_phase"]["value"] | replace("_", " ") | title}}</td style="border: none;">
+				<td style="border: none;">Sunrise: {{day["sunrise"]["value"]}}</td>
+				<td style="border: none;">Sunset: {{day["sunset"]["value"]}}</td>
+			</tr>
+    {% endfor %}
+   </tbody>
+</table>
+</div>
+</div>
+
+<!--
 <div class="container">
 <h1>14 Day Weather Forecast</h1>
 <br>
@@ -12,13 +38,13 @@
 	  <div class="card-header" id="heading{{loop.index}}">
 		<h2 class="mb-0">
 		  <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
-				<table class="table" style="width: 27.5;">
+				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" style="width: 7rem;">{{day["observation_time"]["value"]}}</th>
-							<th scope="col" style="width: 10rem;">{{day["temp"][1]["max"]["value"] | int | round(0, "common") | int}}°{{day["temp"][1]["max"]["units"]}}/{{day["temp"][0]["min"]["value"] | int | round(0, "common") | int}}°{{day["temp"][0]["min"]["units"]}}</th>
-							<th scope="col" style="width: 0.5rem;"><img class="day-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + day["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></th>
-							<th scope="col" style="width: 10rem;">{{day["weather_code"]["value"] | replace("_", " ") | title}}</th>
+							<td style="border: none;">{{day["observation_time"]["value"]}}</td style="border: none;">
+							<td style="border: none;">{{day["temp"][1]["max"]["value"] | int | round(0, "common") | int}}°{{day["temp"][1]["max"]["units"]}}/{{day["temp"][0]["min"]["value"] | int | round(0, "common") | int}}°{{day["temp"][0]["min"]["units"]}}</td style="border: none;">
+							<td style="border: none;"><img class="day-weather-code-icon" src="{{url_for("static", filename="images/weathercodeicons/" + day["weather_code"]["value"]  + ".svg")}}" alt="Icon for weather code."></td style="border: none;">
+							<td style="border: none;">{{day["weather_code"]["value"] | replace("_", " ") | title}}</td style="border: none;">
 						</tr>
 					</thead>
 				</table>
@@ -30,10 +56,10 @@
 			<table class="table table-dark"">
 				<tbody>
 				  <tr>
-					<td>Humidity: {{((day["humidity"][0]["min"]["value"] + day["humidity"][1]["max"]["value"]) / 2) | round(0, "common") | int}}{{day["humidity"][1]["max"]["units"]}} &emsp; &emsp; &emsp; &emsp; Moon Phase: {{day["moon_phase"]["value"] | replace("_", " ") | title}}</td>
+					<td style="border: none;">Humidity: {{((day["humidity"][0]["min"]["value"] + day["humidity"][1]["max"]["value"]) / 2) | round(0, "common") | int}}{{day["humidity"][1]["max"]["units"]}} &emsp; &emsp; &emsp; &emsp; Moon Phase: {{day["moon_phase"]["value"] | replace("_", " ") | title}}</td style="border: none;">
 				  </tr>
 				  <tr>
-					<td>Sunrise: {{day["sunrise"]["value"]}} &emsp; &emsp; &emsp; Sunset: {{day["sunset"]["value"]}}</td>
+					<td style="border: none;">Sunrise: {{day["sunrise"]["value"]}} &emsp; &emsp; &emsp; Sunset: {{day["sunset"]["value"]}}</td style="border: none;">
 				  </tr>
 				</tbody>
 			</table>
@@ -44,3 +70,4 @@
 {% endfor %}
 </div>
 </div>
+-->
